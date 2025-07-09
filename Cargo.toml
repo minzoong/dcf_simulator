@@ -1,0 +1,33 @@
+[package]
+name = "dcf_simulator"
+version = "0.1.0"
+edition = "2021"
+autobins = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+eframe = "0.31.1"
+egui_extras = "0.31.1"
+egui_plot = "0.32.1"
+futures = "0.3.31"
+log = "0.4.27"
+meval = "0.2.0"
+ode_solvers = "0.6.1"
+rfd = "0.15.3"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+wasm-bindgen = "0.2.100"
+wasm-bindgen-futures = "0.4.50"
+web-sys = { version = "0.3.77", features = ["Document", "Element", "Window"] }
+
+[[bin]]
+name = "dcf_simulator"
+path = "src/main.rs"
+required-features = ["native"]
+
+[features]
+default = ["native"]
+native = []
+web = []

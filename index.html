@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>My eframe App</title>
+    <style>
+      body {
+        padding: 0;
+        margin: 0;
+      }
+
+      #egui_canvas {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    </style>
+  </head>
+  <body>
+    <!-- Trunk가 Cargo.toml을 보고 Rust 코드를 빌드하도록 지시 -->
+    <link data-trunk rel="rust" href="Cargo.toml" data-cargo-args="--lib" data-cargo-no-default-features data-cargo-features="web" />
+
+    <!-- eframe 앱이 렌더링될 캔버스 -->
+    <canvas id="egui_canvas"></canvas>
+  </body>
+</html>
