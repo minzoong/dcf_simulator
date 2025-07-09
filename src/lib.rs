@@ -211,7 +211,7 @@ impl AppState {
                         let x_out = solver.x_out();
                         let y_out: Vec<f64> = solver.y_out().iter().map(|v| v[0]).collect();
                         let step = x_out[1] - x_out[0];
-                        let mut n_counter: usize = 1;
+                        let mut n_counter: usize = output.is_empty().then(|| 0).unwrap_or(1);
                         for (i, &x) in x_out.iter().enumerate() {
                             if x - (n_counter as f64) > -step {
                                 output.push(y_out[i]);
@@ -247,6 +247,10 @@ impl AppState {
                     },
                 };
 
+                if output.is_empty() {
+                    output.push(f(0.0));
+                }
+
                 for t in 1..=(period - prev_period) {
                     output.push(f(t as f64));
                 }
@@ -272,6 +276,10 @@ impl AppState {
                         continue;
                     },
                 };
+
+                if output.is_empty() {
+                    output.push(constant);
+                }
 
                 for _ in 1..=(period - prev_period) {
                     output.push(constant);

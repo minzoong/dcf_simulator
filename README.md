@@ -39,6 +39,12 @@ All results are plotted in real time and listed in a scrollable table.
 > ⚠️ **Only two symbols are recognised:** `t` and `y`.  
 > Any other variable name will make the segment evaluate to 0.
 
+> ℹ️ **Note**  
+> When you select an ODE model (`0.05 * y` etc.), the **initial value** is set to  
+> the *last computed cash-flow value of the previous segment*.  
+> This makes the ODE continue smoothly from the earlier series without requiring
+> a separate initial-value input.
+
 ---
 
 ## 🚀 How to Run
