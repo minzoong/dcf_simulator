@@ -171,7 +171,7 @@ impl AppState {
 
         for e in self.state.rows.iter() {
             let period = e.end.parse::<usize>().unwrap_or(0);
-            if period <= prev_period {
+            if period < prev_period {
                 return None;
             }
 
@@ -443,7 +443,7 @@ impl eframe::App for AppState {
                             let mut dot_counter: usize = 0;
                             self.state.growth.retain(|c| retain_float(c, &mut dot_counter));
                         }
-                        ui.add(egui::Label::new(" * t"));
+                        ui.add(egui::Label::new(format!(" ^ t * y[{prev_start}]")));
                     });
 
                 });

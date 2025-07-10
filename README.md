@@ -20,7 +20,7 @@ All results are plotted in real time and listed in a scrollable table.
 | Category | Description |
 |----------|-------------|
 | Multi-model input | Per-period expression can be **constant**, **t-based function** or **ODE in y**. |
-| Live visualisation | Cash-flows rendered as a line plot (`egui_plot`) and tabulated (`egui_extras`). |
+| Live visualisation | Cash-flows rendered as a line plot (`egui_plot`) and tabulated (`egui_extras`), which also supports log-scale view. |
 | Instant re-compute | Only when user input changes — keeps CPU usage low. |
 | Native + WASM | Single code base; `cargo run --release` for desktop, `trunk serve` for browser. |
 | Persistence | Save / load scenario to JSON via `rfd` (native) or `rfd::AsyncFileDialog` (web). |
@@ -32,11 +32,11 @@ All results are plotted in real time and listed in a scrollable table.
 
 | Type | Example | Notes |
 |------|---------|-------|
-| Constant | `5000` | Same cash-flow each step. |
-| Time function | `1000 * t` | `t` is **period index** starting at 1. |
-| ODE (first-order) | `0.05 * y` | `y` is previous cash-flow; only linear ODEs supported. |
+| Constant | `500` | Same cash-flow each step. |
+| Time function | `1.10 ^ t` | `t` is **period index** starting at 0. |
+| ODE (first-order) | `(2200 - y) * (0.10 + 0.05 * y / 2200)` | `y` is previous cash-flow; only linear ODEs supported. |
 
-> ⚠️ **Only two symbols are recognised:** `t` and `y`.  
+> ⚠️ **Only two symbols are recognised:** `t` and `y`.
 > Any other variable name will make the segment evaluate to 0.
 
 > ℹ️ **Note**  
@@ -74,7 +74,7 @@ A `<canvas id="egui_canvas">` is created automatically by Trunk.
 
 1. Left panel → `Add` to append a segment row.  
 2. For each row fill **End** (last period of the segment) and **Expression**.  
-3. Final infinite segment: type *growth factor* (e.g. `1.02`) → internally used as `growth * t`.  
+3. Final infinite segment: type *growth factor* (e.g. `1.02`) → internally used as `growth ^ t`.  
 4. Set **Discount Rate** (e.g. `1.08`) and **ODE step size** if ODEs are present.  
 5. Center panel shows plot, table, terminal value and total DCF.  
 6. `Save` / `Load` buttons (or `S` / `L`) persist / restore the entire state.
