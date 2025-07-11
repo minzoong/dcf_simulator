@@ -1,11 +1,11 @@
 # dcf_simulator
 
 A cross-platform (native + WebAssembly) **DCF (Discounted Cash-Flow) simulator** written in Rust with the `egui` GUI framework.  
-It lets you define piece-wise cash-flow models — constants, time-functions or first-order ODEs — and instantly shows:
+It lets you define piecewise cash-flow models — constants, time functions or first-order ODEs — and instantly shows:
 
 * the raw cash-flow series  
-* unit-DCF values (cash-flow / discount factor)  
-* running sum of discounted cash-flows  
+* unit DCF values (cash-flow / discount factor)  
+* running sum of discounted cash-flow
 * terminal value and total DCF result  
 
 All results are plotted in real time and listed in a scrollable table.
@@ -19,12 +19,12 @@ All results are plotted in real time and listed in a scrollable table.
 
 | Category | Description |
 |----------|-------------|
-| Multi-model input | Per-period expression can be **constant**, **t-based function** or **ODE in y**. |
-| Live visualization | Cash-flows rendered as a line plot (`egui_plot`) and tabulated (`egui_extras`), which also supports log-scale view. |
+| Multi-model input | Per-period expression can be a **constant**, a **t-based function** or an **ODE in y**. |
+| Live visualization | Cash-flows rendered as a line plot, which also supports log-scaled view. |
 | Instant re-compute | Only when user input changes — keeps CPU usage low. |
-| Native + WASM | Single code base; `cargo run --release` for desktop, `trunk serve` for browser. |
-| Persistence | Save / load scenario to JSON via `rfd` (native) or `rfd::AsyncFileDialog` (web). |
-| Short-cuts | `A` add row • `D` delete row • `S` save • `L` load. |
+| Native + WASM | Run `cargo run --release` for desktop, `trunk serve` for browser. |
+| Persistence | Save / load scenario to JSON. |
+| Shortcuts | `A` add row • `D` delete row • `S` save • `L` load. |
 
 ---
 
@@ -36,8 +36,9 @@ All results are plotted in real time and listed in a scrollable table.
 | Time-dependent functions | `1.10 ^ t` | `t` is **period index** starting at 0. |
 | ODE (first-order) | `(2200 - y) * (0.10 + 0.05 * y / 2200)` | `y` is previous cash-flow |
 
-> ⚠️ **Only two symbols are recognised:** `t` and `y`.
+> ⚠️ **Only two symbols are recognized:** `t` and `y`.
 > Any other variable name will make the segment evaluate to 0.
+> Well-known constants such as pi or e are also allowed.
 
 > ℹ️ **Note**  
 > When you select an ODE model (`0.05 * y` etc.), the **initial value** is set to  
@@ -76,7 +77,7 @@ A `<canvas id="egui_canvas">` is created automatically by Trunk.
 2. For each row fill **End** (last period of the segment) and **Expression**.  
 3. Final infinite segment: type *growth factor* (e.g. `1.02`) → internally evaluated as an exponential growth curve (growth^t).
 4. Set **Discount Rate** (e.g. `1.08`) and **ODE step size** if ODEs are present.  
-5. Center panel shows plot, table, terminal value and total DCF.  
+5. Center panel shows plot, table, terminal value, and total DCF.  
 6. `Save` / `Load` buttons (or `S` / `L`) persist / restore the entire state.
 
 ---
@@ -84,7 +85,7 @@ A `<canvas id="egui_canvas">` is created automatically by Trunk.
 ## ⚠️ Caveats & Limits
 
 * Periods must be strictly increasing; otherwise the graph disappears (invalid input).  
-* Only one dot `.` is allowed in numeric fields; negative values are not yet supported.  
+* Only one dot `.` is allowed in numeric fields; negative values are not supported.  
 * ODE solver uses fixed tolerances `1e-10`; adjust in source if higher precision needed.  
 * Mobile Safari blocks file API → save/load buttons are disabled on such browsers.
 * The expression parser follows meval syntax; operator precedence matches standard math.
